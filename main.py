@@ -1,5 +1,5 @@
 from config.secrets_manager import SecretsManager
-from config.config import config
+from config.config_loader import config
 from src.yt_music.extractor import YTMusicExtractor
 from src.spotify.spotify_client import SpotifyClient
 from src.spotify.syncer import SpotifySyncer
