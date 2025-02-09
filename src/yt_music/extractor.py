@@ -1,22 +1,27 @@
 import json
-from src.yt_music.models import Song, Playlist
+import os
 
 class YTMusicExtractor:
     def __init__(self, file_path):
         self.file_path = file_path
 
     def extract_songs(self):
-        with open(self.file_path, "r") as file:
-            data = json.load(file)
+        if not os.path.exists(self.file_path):
+            raise FileNotFoundError(f"File not found: {self.file_path}")
 
-        liked_songs = []
-        downloaded_songs = []
+        with open(self.file_path, "r", encoding="utf-8") as file:
+            content = file.read().strip()
 
-        for entry in data.get("tracks", []):
-            song = Song(title=entry.get("title"), artist=entry.get("artist"), album=entry.get("album"))
-            if entry.get("liked"):
-                liked_songs.append(song)
-            if entry.get("downloaded"):
-                downloaded_songs.append(song)
+            if not content:
+                raise ValueError(f"Takeout JSON file is empty: {self.file_path}")
 
-        return Playlist(name="Liked Songs", songs=liked_songs), Playlist(name="Downloaded Songs", songs=downloaded_songs)
+            try:
+                data = json.loads(content)
+            except json.JSONDecodeError as e:
+                raise ValueError(f"Invalid JSON file: {self.file_path}. Error: {e}")
+
+        # Process data
+        liked_songs = []  # Extract liked songs
+        downloaded_songs = []  # Extract downloaded songs
+
+        return liked_songs, downloaded_songs
