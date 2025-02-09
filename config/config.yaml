@@ -1,0 +1,8 @@
+# Configurations for the YouTube to Spotify Migrator
+
+spotify:
+  playlist_name_downloaded: "Downloaded YT Music"
+  sync_liked_songs: true  # Set to true to sync liked songs
+
+yt_music:
+  takeout_file_path: "data/extracted_data.json"  # Path to YouTube Takeout JSON file
